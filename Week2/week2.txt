@@ -1,0 +1,11 @@
+First we need to write (pragma foreign_key = on)
+
+create table stud
+(
+	id number(10) primary key,
+@@ -30,4 +28,4 @@ values(1,"Gangadhara", 973715233),(2,"kadod",9121435345),(3,"surat",6345734513),
+-> select * from stud_detail where city like "surat";
+
+4.Display record of student whose come from city start from b.
+-> select * from stud_detail where city like "b%";
+-> select * from stud_detail where city like "b%";
