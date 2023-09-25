@@ -1,0 +1,92 @@
+#Create CSV file for product selling for 6 Months ( Prod_No | Prod_Name | Jan | Feb | Mar | Apr | May | Jun) for 5 products.
+#Perform following operations.
+#1. Add 12 Records. Take input from user.
+
+import csv
+import pandas as pd
+
+header = ["Prod_No", "Prod_Name", "Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+data=[[1,'PENCIL',100,200,200,350,200,300],[2,'PEN',200,400,400,350,200,300],[3,'TV',10,10,20,35,20,10],[4,'SOAP',100,200,200,350,200,300],[5,'SHAMPOO',1000,2000,200,350,2000,3000]]
+
+with open('c:\sqlite3\csv\week7.csv','w',newline='') as f:
+    w=csv.writer(f)
+    w.writerow(header)
+    w.writerows(data)
+    for i in range(12):
+        no=int(input("Enter Product No. :"))
+        name=input("Enter Product Name :")
+        jan=int(input("Enter January sell :"))
+        feb=int(input("Enter February sell :"))
+        mar=int(input("Enter March sell :"))
+        apr=int(input("Enter April sell :"))
+        may=int(input("Enter May sell :"))
+        june=int(input("Enter June sell :"))
+        sub_lis=[no,name,jan,feb,mar,apr,may,june]
+        w.writerow(sub_lis)
+
+with open('c:\sqlite3\csv\week7.csv','r',errors='ignore') as f:
+    w=csv.reader(f)
+    for i in w:
+        print(i)
+
+#2. Create dataframe.
+csv_file='c:\sqlite3\csv\week7.csv'
+df=pd.read_csv(csv_file)
+df
+
+#3. Change Column Name Product No, Product Name, January, February, March, April, May, June.
+df.columns=["Product No","Product Name","January","February","March","April","May","June"]
+df
+
+#4. Add column "Total Sell" to count total of all month and "Average Sell"
+df["Total Sell"]=df.iloc[:,2:].sum(axis=1)
+df["Average Sell"]=df.iloc[:,2:8].mean(axis=1)
+df
+
+#5. Add 2 row at the end.
+df.loc[17]=(18,"DOOR",100,200,300,400,500,600,2100,350.000000)
+df.loc[18]=(19,"WINDOW",100,200,300,400,500,600,2100,350.000000)
+df
+
+#6. Add 2 row after 3rd row.
+new_rows = pd.DataFrame([[20, "CHESS", 80, 70, 60, 50, 40, 30,330,305.000000], [21, "COVER", 20, 30, 40, 50, 60, 70,270,211.666667]], columns=df.columns)
+df = pd.concat([df.iloc[:3], new_rows, df.iloc[3:]]).reset_index(drop=True)
+df
+
+#7. Print first 5 row.
+df.head()
+df
+
+#8. Print Last 5 row.
+df.tail()
+df
+
+#9. Print row 6 to 10.
+df.iloc[5:10,:]
+df
+
+#10. Print only product name.
+df.iloc[:,1]
+df["Product Name"]
+df
+
+#11. Print sell of January month with product id and product name.
+df[["Product No","Product Name","January"]]
+df
+
+#12. Print only those product id , product name where january sell is > 5000 and February sell is >8000
+df[(df["January"] > 5000) & (df["February"] > 8000)][["Product No", "Product Name"]]
+df
+
+#13. Print record in sorting order of Product name.
+df.sort_values(by="Product Name")
+df
+
+#14. Display only odd index number column record.
+df.iloc[:,1::2]
+df
+
+#15. Display alternate row.
+df.iloc[::2]
+df
+
